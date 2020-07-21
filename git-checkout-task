@@ -19,12 +19,18 @@ then
 	exit 1
 fi
 
-readonly target=${branches[0]##*/}
+readonly target=${branches[0]}
+
 clashingBranches=()
 
 for br in "${branches[@]}"
 do
-	otherTarget="${br##*/}"
+	otherTarget="${br}"
+
+	if [[ $otherTarget == *"remotes"* ]]; then
+		break
+	fi
+
 	if [ $otherTarget != $target ]
 	then
 		clashingBranches+=($otherTarget)
